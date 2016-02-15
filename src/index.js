@@ -6,20 +6,20 @@ export function licenseQuestion({ defaultLicense = 'MIT' } = {}) {
     message: 'What license do you want for this project?',
     default: defaultLicense,
     validate: (license) => (
-      validateSpdxLicense(license) || `${license} is not a valid SPDX license!`
+      validateSpdxLicense(license) || `${ license } is not a valid SPDX license!`
     ),
     async when(answers, directory) {
       if ('license' in answers) {
         return false;
       }
       try {
-        const license = JSON.parse(await readFile(`${directory}/package.json`, 'utf8')).license;
+        const license = JSON.parse(await readFile(`${ directory }/package.json`, 'utf8')).license;
         if (license) {
           answers.license = license;
           return false;
         }
         return true;
-      } catch (error) {
+      } catch (packageJsonError) {
         return true;
       }
     },

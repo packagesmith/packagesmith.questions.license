@@ -1,14 +1,14 @@
 import chai from 'chai';
 import chaiSpies from 'chai-spies';
 chai.use(chaiSpies).should();
-import licenseQuestion from '../src/';
 import fileSystem from 'fs-promise';
+import licenseQuestion from '../src/';
 describe('licenseQuestion', () => {
 
   it('returns an object with expected keys', () => {
     licenseQuestion()
       .should.be.an('object')
-      .with.keys([ 'name', `message`, `default`, 'validate', `when` ]);
+      .with.keys([ 'name', 'message', 'default', 'validate', 'when' ]);
   });
 
   describe('default', () => {
