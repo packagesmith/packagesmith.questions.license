@@ -48,30 +48,30 @@ describe('licenseQuestion', () => {
       fileSystem.readFile = chai.spy(() => '{"foo":"bar"}');
     });
 
-    it('returns false if `license` is in answers object', async function() {
+    it('returns false if `license` is in answers object', async function () {
       (await whenFunction({ license: 'foo' }, '/foo/bar')).should.equal(false);
       fileSystem.readFile.should.not.have.been.called();
     });
 
-    it('reads package.json if license is not in answers', async function() {
+    it('reads package.json if license is not in answers', async function () {
       (await whenFunction({}, '/foo/bar'));
       fileSystem.readFile.should.have.been.called(1).with.exactly('/foo/bar/package.json', 'utf8');
     });
 
-    it('returns false and mutates answers if `license` is in package.json', async function() {
+    it('returns false and mutates answers if `license` is in package.json', async function () {
       const answers = {};
       fileSystem.readFile = chai.spy(() => '{"license":"bar"}');
       (await whenFunction(answers, '/foo/bar')).should.equal(false);
       answers.should.have.property('license', 'bar');
     });
 
-    it('returns true if `license` is not in package.json', async function() {
+    it('returns true if `license` is not in package.json', async function () {
       const answers = {};
       (await whenFunction(answers, '/foo/bar')).should.equal(true);
       answers.should.not.have.property('license');
     });
 
-    it('returns true if reading package.json causes error', async function() {
+    it('returns true if reading package.json causes error', async function () {
       const answers = {};
       fileSystem.readFile = chai.spy(() => {
         throw new Error('foo');
